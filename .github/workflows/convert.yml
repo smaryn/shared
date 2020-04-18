@@ -16,17 +16,13 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Install ImageMagick
-      run: sudo apt install imagemagick
-
     # Convert text files to pictures
     - name: Run a multi-line script
       run: |
         convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat txt/123.txt)" imgs/123-txt.png
         convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat docs/shared.md)" imgs/67-md.png
-    
-    # Push 
+
+    # Push them back to repository
     - name: Run a multi-line script
       run: |
         git config --global user.name '${GITHUB_ACTOR}'
