@@ -11,3 +11,8 @@ sudo apt install imagemagick
 ```bash
 convert -background white -size 450x -fill black -font Times-Roman -pointsize 14 caption:"$(cat docs/shared.md)" imgs/67-md.png
 ```
+
+- Convert txt in [txt](./txt/123.txt) to png in [imgs](./imgs/123-txt.png):
+```bash
+convert -background white -size 800x -fill black -font Times-Roman -pointsize 22 caption:"$(cat txt/123.txt)" imgs/123-txt.png
+```
