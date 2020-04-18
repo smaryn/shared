@@ -14,5 +14,5 @@ convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 c
 
 - Convert txt in [txt](./txt/123.txt) to png in [imgs](./imgs/123-txt.png):
 ```bash
-convert -background white -size 860x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat txt/123.txt)" imgs/123-txt.png
+convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat txt/123.txt)" imgs/123-txt.png
 ```
