@@ -47,17 +47,17 @@ jobs:
     #     git commit -m "Automated conversion of changes in ${GITHUB_SHA} to images. ${timestamp}"
     #     git push -u origin HEAD
 
-    - name: Create release tag
-      run: |
-        package_version=$(grep version package.json |\
-        head -1 |\
-        awk -F: '{ print $2 }' |\
-        sed 's/[",]//g' |\
-        tr -d '[[:space:]]')
-        git config --global user.name ${GITHUB_ACTOR}
-        git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
-        git tag -a "v${package_version}" -m "release - ${package_version}"
-        git push origin --tags
+    # - name: Create release tag
+    #   run: |
+    #     package_version=$(grep version package.json |\
+    #     head -1 |\
+    #     awk -F: '{ print $2 }' |\
+    #     sed 's/[",]//g' |\
+    #     tr -d '[[:space:]]')
+    #     git config --global user.name ${GITHUB_ACTOR}
+    #     git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
+    #     git tag -a "v${package_version}" -m "release - ${package_version}"
+    #     git push origin --tags
 
     # - name: DEBUG - run step in another container
     #   uses: docker://alpine/git:latest
