@@ -18,6 +18,11 @@ jobs:
     container: node:12-alpine
 
     steps:
+    - name: Install git
+      run: |
+        apk update
+        apk add bash git
+
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
@@ -39,8 +44,6 @@ jobs:
 
     - name: Create release tag
       run: |
-        apk update
-        apk add bash git
         package_version=$(grep version package.json |\
         head -1 |\
         awk -F: '{ print $2 }' |\
