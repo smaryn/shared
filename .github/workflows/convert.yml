@@ -45,7 +45,7 @@ jobs:
         git config --global user.name ${GITHUB_ACTOR}
         git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
         timestamp=$(date -u)
-        git tag -a "v${PACKAGE_VERSION}" \
-        -m "Tag ${GITHUB_SHA} as release - ${}. \
+        git tag -a "v${package_version}" \
+        -m "Tag ${GITHUB_SHA} as release - ${package_version}. \
         ${timestamp}"
         git push origin --tags
