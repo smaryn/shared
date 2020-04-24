@@ -5,9 +5,9 @@ name: text2png
 on:
   push:
     branches: [ master ]
-    paths:
-        - 'docs/**'
-        - 'txt/**'
+    # paths:
+    #     - 'docs/**'
+    #     - 'txt/**'
   pull_request:
     branches: [ master ]
 
