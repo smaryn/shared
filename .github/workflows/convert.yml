@@ -25,12 +25,27 @@ jobs:
         convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat txt/123.txt)" imgs/123-txt.png
         convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat docs/shared.md)" imgs/67-md.png
 
-    # Push them back to repository
-    - name: Run a multi-line script
+    # # Push them back to repository
+    # - name: Run a multi-line script
+    #   run: |
+    #     git config --global user.name ${GITHUB_ACTOR}
+    #     git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
+    #     git add -A
+    #     timestamp=$(date -u)
+    #     git commit -m "Automated conversion of changes in ${GITHUB_SHA} to images. ${timestamp}"
+    #     git push -u origin HEAD
+
+    - name: Create tag
       run: |
+        package_version=$(grep version package.json |\
+        head -1 |\
+        awk -F: '{ print $2 }' |\
+        sed 's/[",]//g' |\
+        tr -d '[[:space:]]')
         git config --global user.name ${GITHUB_ACTOR}
         git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
-        git add -A
         timestamp=$(date -u)
-        git commit -m "Automated conversion of changes in ${GITHUB_SHA} to images. ${timestamp}"
-        git push -u origin HEAD
+        git tag -a "v${PACKAGE_VERSION}" \
+        -m "Tag ${GITHUB_SHA} as release - ${}. \
+        ${timestamp}"
+        git push origin --tags
