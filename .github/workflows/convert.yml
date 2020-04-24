@@ -15,15 +15,17 @@ on:
 jobs:
   convert:
     runs-on: ubuntu-latest
+    container: node:12-alpine
+
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Convert text files to pictures
-    - name: Convert text files to images
-      run: |
-        convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat txt/123.txt)" imgs/123-txt.png
-        convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat docs/shared.md)" imgs/67-md.png
+    # # Convert text files to pictures
+    # - name: Convert text files to images
+    #   run: |
+    #     convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat txt/123.txt)" imgs/123-txt.png
+    #     convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat docs/shared.md)" imgs/67-md.png
 
     # Push them back to repository
     - name: Push changes back to repo
@@ -37,6 +39,8 @@ jobs:
 
     - name: Create release tag
       run: |
+        apk update
+        apk add bash git
         package_version=$(grep version package.json |\
         head -1 |\
         awk -F: '{ print $2 }' |\
@@ -46,3 +50,13 @@ jobs:
         git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
         git tag -a "v${package_version}" -m "release - ${package_version}"
         git push origin --tags
+
+    # - name: DEBUG - run step in another container
+    #   uses: docker://alpine/git:latest
+    #   with:
+    #     entrypoint: /bin/bash
+    #     args: |
+    #       -c "\
+    #       pwd && \
+    #       ls -al && \
+    #       env|sort"
