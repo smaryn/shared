@@ -26,6 +26,11 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: DEBUG - list workspace
+      run: |
+        ls -al
+        env|sort
+
     # # Convert text files to pictures
     # - name: Convert text files to images
     #   run: |
