@@ -5,47 +5,43 @@ name: text2png
 on:
   push:
     branches: [ master ]
-    # paths:
-    #     - 'docs/**'
-    #     - 'txt/**'
-  pull_request:
-    branches: [ master ]
+    paths:
+        - 'docs/**'
+        - 'txt/**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   convert:
     runs-on: ubuntu-latest
-    container: node:12-alpine
+    # container: node:12-alpine
 
     steps:
     - name: Install git
-      run: |
-        apk update
-        apk add bash git
+      run: apk add bash git --no-cache
 
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    # Checks-out your repository under $GITHUB_WORKSPACE
     - uses: actions/checkout@v2
 
-    - name: DEBUG - list workspace
+    # - name: DEBUG - list workspace
+    #   run: |
+    #     ls -al
+    #     env|sort
+
+    # Convert text files to pictures
+    - name: Convert text files to images
       run: |
-        ls -al
-        env|sort
+        convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat txt/123.txt)" imgs/123-txt.png
+        convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat docs/shared.md)" imgs/67-md.png
 
-    # # Convert text files to pictures
-    # - name: Convert text files to images
-    #   run: |
-    #     convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat txt/123.txt)" imgs/123-txt.png
-    #     convert -background white -size 800x -fill black -font Noto-Mono -pointsize 18 caption:"$(cat docs/shared.md)" imgs/67-md.png
-
-    # # Push them back to repository
-    # - name: Push changes back to repo
-    #   run: |
-    #     git config --global user.name ${GITHUB_ACTOR}
-    #     git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
-    #     git add -A
-    #     timestamp=$(date -u)
-    #     git commit -m "Automated conversion of changes in ${GITHUB_SHA} to images. ${timestamp}"
-    #     git push -u origin HEAD
+    # Push them back to repository
+    - name: Push changes back to repo
+      run: |
+        git config --global user.name ${GITHUB_ACTOR}
+        git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Automated conversion of changes in ${GITHUB_SHA} to images. ${timestamp}"
+        git push -u origin HEAD
 
     # - name: Create release tag
     #   run: |
